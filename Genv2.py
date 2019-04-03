@@ -11,27 +11,46 @@ def value_counts(arr):
     unique_elements, counts_elements = np.unique(arr, return_counts=True)
     return (np.asarray((unique_elements, counts_elements)))
 
-def genEnc(danger):
+def hostileEnc(danger):
     danger = min(danger,5)
-    
-    
-    types = df["Type"].unique()
 
-    weights = { "Character Encounter":1+ (5-danger),
-               "Friendly Social":1 + (5-danger),
+    weights = {
                "Skill Check":danger,
                "Hostile Social":danger,
                "Combat (Non-committal)":danger,
-               "Combat (Aggressive)":max(1,(danger-2))**2
-            
+               "Combat (Aggressive)":(danger-1)*2,
+               
             }
     typesWeighted = []
     
-    for i,encType in enumerate(types):
-        if encType in weights:
+    for i,encType in enumerate(weights.keys()):
             for j in range(weights[encType]):
-                
                 typesWeighted = np.append(typesWeighted,encType)
     return rn.choice(typesWeighted)
+
+def genMund():
+    weights = {"Inventory Check":5,
+               "Weather Check":6,
+               
+            }
+    
+    typesWeighted = []
+    
+    for i,encType in enumerate(weights.keys()):
+            for j in range(weights[encType]):
+                typesWeighted = np.append(typesWeighted,encType)
+    return rn.choice(typesWeighted)
+
+
+test = []
+for i in range(1000):    
+    test.append(hostileEnc(2))
+print(value_counts(test))
+
+
+
+
+
+
 
 
