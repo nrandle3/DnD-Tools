@@ -5,6 +5,7 @@ pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
+playerCharacters = ["Welkin","Franklin","Shifo","Ivon","Shaerif"]
 
 def value_counts(arr):
     unique_elements, counts_elements = np.unique(arr, return_counts=True)
@@ -52,11 +53,14 @@ try:
         for i in phases:
             print("\n------------------------------------------------\n\n" + 
                   "*" + i + "*: ")
-            random = [hostile]*(danger+1) + [mund]*abs(danger-8) + [flavor]*abs(danger-6)
+            random = [hostile]*(danger+1) \
+                    + [mund]*abs(danger-8) \
+                    + [flavor]*abs(danger-6)
+                    
             choice = weightedChoice(rn.choice(random))
             print(choice,end = "")
             if choice == "Character Encounter":
-                print(": " + rn.choice(["Welkin","Franklin","Shifo","Ivon","Shaerif"]))
+                print(": " + rn.choice(playerCharacters))
             else:
                 print()
             if choice in df["Type"].unique(): 
