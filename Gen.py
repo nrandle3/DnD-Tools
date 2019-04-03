@@ -1,53 +1,68 @@
 import random as rn
 import pandas as pd
+import numpy as np
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
-df = pd.read_csv("./Encounters.csv")
+
+def value_counts(arr):
+    unique_elements, counts_elements = np.unique(arr, return_counts=True)
+    return (np.asarray((unique_elements, counts_elements)))
+
+def weightedChoice(d):
+    typesWeighted = []
+    
+    for i,encType in enumerate(d.keys()):
+            for j in range(d[encType]):
+                typesWeighted = np.append(typesWeighted,encType)
+    return rn.choice(typesWeighted)
 
 
-phases = ["Dawn", 'Morning', 'Noon', 'Afternoon', 'Dusk', 'Night']
+test = []
+df = pd.read_csv("./EncountersTransposed.csv")
 
-encTypes = ["Character Encounter",
-           "Friendly Social",
-           "Skill Check",
-           "Hostile Social",
-           "Combat (Non-committal)",
-           "Combat (Aggressive)"
-        ]
-non_encounter = ["Talk about the weather",
-                 "Character encounter: ",
-                 "Check over your inventories"
-                 ]
-
-
-chars = ["Welkin","Franklin","Shifo","Ivon","Shaerif"]
 try:
-        #ok yea I want to rewrite all this shit so I can easily add columns and it'll b ez
+         
     while True:
         print("\n*__________________________________________________________________________________________________________*")
         
         danger = min(int(input("Threat Level: ")),5)
-        for i in range(6): 
-            enc = rn.randint(1,6)
-            print("\n------------------------------------------------\n\n" + 
-                  "*" + phases[i] + "*: ")
+        
+        hostile = {"Skill Check":danger,
+                       "Hostile Social":danger,
+                       "Combat (Non-committal)":danger,
+                       "Combat (Aggressive)":(danger-1)*2
+                    }
+        
+        mund = {"Inventory Check":3,
+                       "Find something mundane in inventory":1,
+                       "Weather Check":5
+                    }
+        
+        flavor = {"Character Encounter":1,
+                       "Discovery":1
+                    }
+        
+        
+        
+        phases = ["Dawn", 'Morning', 'Noon', 'Afternoon', 'Dusk', 'Night']
+        
             
-            if enc <= int(danger):
-                encType = rn.randint(0,5)
-                print(encTypes[encType],end="")
-                if encType < 4:
-                    if encType == 0:
-                        print(": " + rn.choice(chars),end="")
-                    encounter = df[encTypes[encType]].dropna().sample().values[0]
-                    print("\n" + encounter)
-                else:
-                    print()
+        for i in phases:
+            print("\n------------------------------------------------\n\n" + 
+                  "*" + i + "*: ")
+            random = [hostile]*(danger+1) + [mund]*abs(danger-8) + [flavor]*abs(danger-6)
+            choice = weightedChoice(rn.choice(random))
+            print(choice,end = "")
+            if choice == "Character Encounter":
+                print(": " + rn.choice(["Welkin","Franklin","Shifo","Ivon","Shaerif"]))
             else:
-                non_encounter[1] =  "Character Encounter(easy): " + rn.choice(chars) + "\n" + df["Character Encounter"].dropna().sample().values[0]
-                nonE = rn.choice(non_encounter) 
-                print("(NONE)" + nonE)
+                print()
+            if choice in df["Type"].unique(): 
+                print(df[df["Type"]==choice].sample()["Encounter"].values[0])
 except:
     print("ok")    
-                
+    
+    
+    
