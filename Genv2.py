@@ -5,50 +5,57 @@ pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
-df = pd.read_csv("./EncountersTransposed.csv")
 
 def value_counts(arr):
     unique_elements, counts_elements = np.unique(arr, return_counts=True)
     return (np.asarray((unique_elements, counts_elements)))
 
-def hostileEnc(danger):
-    danger = min(danger,5)
-
-    weights = {
-               "Skill Check":danger,
-               "Hostile Social":danger,
-               "Combat (Non-committal)":danger,
-               "Combat (Aggressive)":(danger-1)*2,
-               
-            }
+def weightedChoice(d):
     typesWeighted = []
     
-    for i,encType in enumerate(weights.keys()):
-            for j in range(weights[encType]):
-                typesWeighted = np.append(typesWeighted,encType)
-    return rn.choice(typesWeighted)
-
-def genMund():
-    weights = {"Inventory Check":5,
-               "Weather Check":6,
-               
-            }
-    
-    typesWeighted = []
-    
-    for i,encType in enumerate(weights.keys()):
-            for j in range(weights[encType]):
+    for i,encType in enumerate(d.keys()):
+            for j in range(d[encType]):
                 typesWeighted = np.append(typesWeighted,encType)
     return rn.choice(typesWeighted)
 
 
 test = []
-for i in range(1000):    
-    test.append(hostileEnc(2))
-print(value_counts(test))
+df = pd.read_csv("./EncountersTransposed.csv")
 
-
-
+        
+while True:
+    print("\n*__________________________________________________________________________________________________________*")
+    
+    danger = min(int(input("Threat Level: ")),5)
+    
+    hostile = {"Skill Check":danger,
+                   "Hostile Social":danger,
+                   "Combat (Non-committal)":danger,
+                   "Combat (Aggressive)":(danger-1)*2
+                }
+    
+    mund = {"Inventory Check":3,
+                   "Find something mundane in inventory":1,
+                   "Weather Check":5
+                }
+    
+    flavor = {"Character Encounter":1,
+                   "Discovery":1
+                }
+    
+    
+    
+    phases = ["Dawn", 'Morning', 'Noon', 'Afternoon', 'Dusk', 'Night']
+    
+        
+    for i in phases:
+        print("\n------------------------------------------------\n\n" + 
+              "*" + i + "*: ")
+        random = [hostile]*(danger+1) + [mund]*abs(danger-8) + [flavor]*abs(danger-6)
+        choice = weightedChoice(rn.choice(random))
+        print(choice)
+        if choice in df.columns:    
+            print(df[choice].sample())
 
 
 
