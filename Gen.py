@@ -4,7 +4,7 @@ pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
-df = pd.read_csv("file:///D:/Personal/Media/Documents/python/Encounter generator/Encounters.csv")
+df = pd.read_csv("./Encounters.csv")
 
 
 phases = ["Dawn", 'Morning', 'Noon', 'Afternoon', 'Dusk', 'Night']
