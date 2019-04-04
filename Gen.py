@@ -10,16 +10,6 @@ level 1 you will see hostile encounters far less often, and never see an aggress
 combat. At higher levels you will see more and more hostile encounters vs mundane
 and flavor.
 
-
-
-"""
-
-# Change this list to add your own characters 
-# (It chooses from this list entirely randomly for the "Character Encounters")
-
-playerCharacters = ["Welkin","Franklin","Shifo","Ivon","Shaerif"]
-
-"""
 In order to ADD possible events:
     First add them to the CSV, with the type and encounter
         Keep in mind the speelling is case sensitive
@@ -36,6 +26,11 @@ import numpy as np
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
+
+
+playerCharacters = list(pd.read_csv(
+        "file:///D:/Personal/Media/Documents/python/Encounter generator/DnD-Tools/characters.csv"))
+
 
 
 def value_counts(arr):
