@@ -8,8 +8,8 @@ if sys.version_info[0] < 3:
 dicePattern = re.compile("^\d+d\d+$")
 
 print("Welcome!")
-print("The input takes the number of dices, a lowercase D and the faces of the die")
-print("E.g Thorw 2 dices of 20 faces: 2d20")
+print("The input takes the number of dice, a lowercase 'd' and the faces of the die")
+print("E.g Throw two 20 sided dice: 2d20")
 print("Type exit to finish")
 
 while True:
