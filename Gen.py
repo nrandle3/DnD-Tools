@@ -28,8 +28,7 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
 
-playerCharacters = list(pd.read_csv(
-        "file:///D:/Personal/Media/Documents/python/Encounter generator/DnD-Tools/characters.csv"))
+playerCharacters = list(pd.read_csv("./characters.csv"))
 
 
 
@@ -101,7 +100,7 @@ try:
             
             (I rounded down so they may not add up to 100% oops)
             Level |  Hostile  |  Mundane  |  Flavor  | Total
-            1     |    14%    |    15%    |    35%   |   14
+            1     |    14%    |    50%    |    35%   |   14
             2     |    23%    |    46%    |    30%   |   13
             3     |    33%    |    41%    |    25%   |   12
             4     |    45%    |    36%    |    18%   |   11
